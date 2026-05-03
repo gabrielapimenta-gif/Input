@@ -11,11 +11,23 @@ export default function LoginScreen() {
     const [senha, setSenha] = useState("");
     
 async function handleLogin() {
-  const user = await login(email, senha);
+  console.log("Botão clicado");
+
+  console.log("Email:", email);
+  console.log("Senha:", senha);
+
+const user = await login(
+  email.trim(),
+  senha.trim()
+);
+  console.log("Resultado login:", user);
 
   if (user) {
     await saveUser(user);
+    console.log("Navegando...");
     router.push("/dashboard");
+  } else {
+    console.log("Usuário não encontrado");
   }
 }
 
@@ -32,17 +44,15 @@ async function handleLogin() {
 
         <Text style={styles.label}>Email</Text>
         <Input
-          placeholder="seu@email.com"
-          value={email}
-          onChangeText={setEmail}
+        value={email}
+        onChangeText={setEmail}
         />
 
         <Text style={styles.label}>Senha</Text>
         <Input
-          placeholder="******"
-          secureTextEntry
-          value={senha}
-          onChangeText={setSenha}
+        value={senha}
+        onChangeText={setSenha}
+        secureTextEntry
         />
         
         <Button title="Entrar" onPress={handleLogin} />
