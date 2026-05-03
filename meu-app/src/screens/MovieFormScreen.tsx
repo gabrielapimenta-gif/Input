@@ -22,6 +22,9 @@ import {
     createMovie,
 } from "../services/movieService";
 
+export default function MovieFormScreen() {
+  const { id } = useLocalSearchParams();
+
 const {
     control,
     handleSubmit,
@@ -31,17 +34,11 @@ const {
     resolver: zodResolver(movieSchema),
 });
 
-const { id } = useLocalSearchParams();
-
-async function onSubmit(data: MovieFormData) {
+useEffect(() => {
     if (id) {
-        await updateMovie(String(id), data);
-    } else {
-        await createMovie(data);
+      loadMovie();
     }
-
-    router.push("/dashboard");
-}
+  }, [id]);
 
 async function loadMovie() {
     if (!id) return;
@@ -63,10 +60,15 @@ async function loadMovie() {
     setValue("linkTrailer", movie.linkTrailer);
 }
 
-export default function MovieFormScreen() {
-    useEffect(() => {
-        loadMovie();
-    }, [id]);
+async function onSubmit(data: MovieFormData) {
+    if (id) {
+        await updateMovie(String(id), data);
+    } else {
+        await createMovie(data);
+    }
+
+    router.push("/dashboard");
+}
 
     return (
         <ScrollView style={styles.container}>
