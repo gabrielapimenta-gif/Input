@@ -7,29 +7,28 @@ import { saveUser } from "../hooks/useAuth";
 import { router } from "expo-router";
 
 export default function LoginScreen() {
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    
-async function handleLogin() {
-  console.log("Botão clicado");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
-  console.log("Email:", email);
-  console.log("Senha:", senha);
+  async function handleLogin() {
+    console.log("Botão clicado");
+    console.log("EMAIL:", `[${email}]`);
+    console.log("SENHA:", `[${senha}]`);
 
-const user = await login(
-  email.trim(),
-  senha.trim()
-);
-  console.log("Resultado login:", user);
+    const user = await login(
+      email.trim(),
+      senha.trim()
+    );
+    console.log("Resultado login:", user);
 
-  if (user) {
-    await saveUser(user);
-    console.log("Navegando...");
-    router.push("/dashboard");
-  } else {
-    console.log("Usuário não encontrado");
+    if (user) {
+      await saveUser(user);
+      console.log("Navegando...");
+      router.push("/dashboard");
+    } else {
+      console.log("Usuário não encontrado");
+    }
   }
-}
 
   return (
     <View style={styles.container}>
@@ -39,22 +38,27 @@ const user = await login(
       <View style={styles.card}>
         <View style={styles.tabs}>
           <Text style={styles.activeTab}>Login</Text>
-          <Text style={styles.tab}>Cadastrar</Text>
+          <Text
+            style={styles.tab}
+            onPress={() => router.push("/cadastro")}
+          >
+            Cadastrar
+          </Text>
         </View>
 
         <Text style={styles.label}>Email</Text>
         <Input
-        value={email}
-        onChangeText={setEmail}
+          value={email}
+          onChangeText={setEmail}
         />
 
         <Text style={styles.label}>Senha</Text>
         <Input
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
         />
-        
+
         <Button title="Entrar" onPress={handleLogin} />
 
         <Text style={styles.back}>← Voltar para o site</Text>

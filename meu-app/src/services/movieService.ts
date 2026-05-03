@@ -5,13 +5,13 @@ export async function getMovies() {
   return response.data;
 }
 
-export async function createMovie(data: any) {
-  const response = await api.post("/movies", data);
-  return response.data;
-}
-
 export async function deleteMovie(id: string) {
   await api.delete(`/movies/${id}`);
+}
+
+export async function createMovie(movie: any) {
+  const response = await api.post("/movies", movie);
+  return response.data;
 }
 
 export async function getMovieById(id: string) {
