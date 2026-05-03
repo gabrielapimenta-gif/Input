@@ -1,0 +1,9 @@
+{
+    "users": [{
+        "id": "1",
+        "email": "admin@una.com",
+        "senha": "123456",
+        "nome": "Gabriela"
+    }],
+    "movies": []
+}
