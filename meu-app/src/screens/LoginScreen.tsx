@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { useState } from "react";
@@ -11,24 +11,32 @@ export default function LoginScreen() {
   const [senha, setSenha] = useState("");
 
   async function handleLogin() {
-    console.log("Botão clicado");
-    console.log("EMAIL:", `[${email}]`);
-    console.log("SENHA:", `[${senha}]`);
+  const result = await login(
+    email.trim(),
+    senha.trim()
+  );
 
-    const user = await login(
-      email.trim(),
-      senha.trim()
+  if (result.error === "EMAIL_NOT_FOUND") {
+    Alert.alert(
+      "Email incorreto",
+      "O Email está incorreto. Tente novamente."
     );
-    console.log("Resultado login:", user);
-
-    if (user) {
-      await saveUser(user);
-      console.log("Navegando...");
-      router.push("/dashboard");
-    } else {
-      console.log("Usuário não encontrado");
-    }
+    return;
   }
+
+  if (result.error === "WRONG_PASSWORD") {
+    Alert.alert(
+      "Senha incorreta",
+      "A senha está incorreta. Tente novamente."
+    );
+    return;
+  }
+
+  if (result.user) {
+    await saveUser(result.user);
+    router.push("/dashboard");
+  }
+}
 
   return (
     <View style={styles.container}>

@@ -29,7 +29,7 @@ export default function DashboardScreen() {
 
             <FlatList
                 data={movies}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => String(item.id)}
                 renderItem={({ item }) => (
                     <MovieCard movie={item} />
                 )}

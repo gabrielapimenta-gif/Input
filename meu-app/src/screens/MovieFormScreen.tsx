@@ -7,9 +7,9 @@ import {
     Image
 } from "react-native";
 import { router } from "expo-router";
+import { useForm } from "react-hook-form";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     movieSchema,
@@ -47,6 +47,19 @@ export default function MovieFormScreen() {
     const [titulo, setTitulo] = useState("");
     const [ano, setAno] = useState("");
     const [duracao, setDuracao] = useState("");
+    const [roteiro, setRoteiro] = useState("");
+    const [direcao, setDirecao] = useState("");
+    const [producao, setProducao] = useState("");
+    const [sinopse, setSinopse] = useState("");
+    const [direcaoFotografia, setDirecaoFotografia] = useState("");
+    const [montagem, setMontagem] = useState("");
+    const [direcaoArte, setDirecaoArte] = useState("");
+    const [mixagem, setMixagem] = useState("");
+    const [somDireto, setSomDireto] = useState("");
+    const [figurino, setFigurino] = useState("");
+    const [nomeAtores, setNomeAtores] = useState("");
+    const [trilhaSonora, setTrilhaSonora] = useState("");
+
 
     useEffect(() => {
         if (id) {
@@ -134,6 +147,17 @@ export default function MovieFormScreen() {
             titulo,
             ano,
             duracao,
+            sinopse,
+            direcao,
+            producao,
+            roteiro,
+            direcaoFotografia,
+            montagem,
+            direcaoArte,
+            mixagem,
+            somDireto,
+            figurino,
+            nomeAtores,
             classificacao,
             genero,
             categoria,
@@ -167,49 +191,28 @@ export default function MovieFormScreen() {
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Informações Básicas</Text>
 
-                <Controller
-                    control={control}
-                    name="titulo"
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            placeholder="Título"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
+                <Input
+                    value={titulo}
+                    onChangeText={setTitulo}
+                    placeholder="Título"
                 />
-                <Controller
-                    control={control}
-                    name="ano"
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            placeholder="Ano"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
+
+                <Input
+                    value={ano}
+                    onChangeText={setAno}
+                    placeholder="Ano"
                 />
-                <Controller
-                    control={control}
-                    name="duracao"
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            placeholder="Duração"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
+
+                <Input
+                    value={duracao}
+                    onChangeText={setDuracao}
+                    placeholder="Duração"
                 />
-                <Controller
-                    control={control}
-                    name="sinopse"
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            placeholder="Sinopse"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
+
+                <Input
+                    value={sinopse}
+                    onChangeText={setSinopse}
+                    placeholder="Sinopse"
                 />
                 <Picker
                     selectedValue={classificacao}
@@ -227,32 +230,73 @@ export default function MovieFormScreen() {
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Ficha Técnica</Text>
 
-                <Controller
-                    control={control}
-                    name="direcao"
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            placeholder="Direção"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
+                <Input
+                    value={direcao}
+                    onChangeText={setDirecao}
+                    placeholder="Direção"
                 />
-                <Input placeholder="Produção" />
-                <Input placeholder="Roteiro" />
-                <Input placeholder="Direção de Fotografia" />
-                <Input placeholder="Montagem" />
-                <Input placeholder="Direção de Arte" />
-                <Input placeholder="Trilha Sonora" />
-                <Input placeholder="Mixagem" />
-                <Input placeholder="Som Direto" />
-                <Input placeholder="Figurino" />
+
+                <Input
+                    value={producao}
+                    onChangeText={setProducao}
+                    placeholder="Produção"
+                />
+
+                <Input
+                    value={roteiro}
+                    onChangeText={setRoteiro}
+                    placeholder="Roteiro"
+                />
+
+                <Input
+                    value={direcaoFotografia}
+                    onChangeText={setDirecaoFotografia}
+                    placeholder="Direção de Fotografia"
+                />
+
+                <Input
+                    value={montagem}
+                    onChangeText={setMontagem}
+                    placeholder="Montagem"
+                />
+
+                <Input
+                    value={direcaoArte}
+                    onChangeText={setDirecaoArte}
+                    placeholder="Direção de Arte"
+                />
+
+                <Input
+                    value={trilhaSonora}
+                    onChangeText={setTrilhaSonora}
+                    placeholder="Trilha Sonora"
+                />
+
+                <Input
+                    value={mixagem}
+                    onChangeText={setMixagem}
+                    placeholder="Mixagem"
+                />
+                <Input
+                    value={somDireto}
+                    onChangeText={setSomDireto}
+                    placeholder="Som Direto"
+                />
+                <Input
+                    value={figurino}
+                    onChangeText={setFigurino}
+                    placeholder="Figurino"
+                />
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Elenco</Text>
 
-                <Input placeholder="Nome dos atores" />
+                <Input
+                    value={nomeAtores}
+                    onChangeText={setNomeAtores}
+                    placeholder="Nome dos atores"
+                />
             </View>
 
             <View style={styles.card}>

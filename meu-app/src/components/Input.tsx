@@ -4,6 +4,7 @@ export function Input(props: any) {
   return (
     <TextInput
       {...props}
+      value={props.value ?? ""}
       style={[styles.input, props.style]}
       placeholderTextColor="#666"
     />
@@ -12,10 +13,10 @@ export function Input(props: any) {
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#222",
     color: "#fff",
     padding: 14,
     borderRadius: 8,
-    marginBottom: 15,
+    marginBottom: 16,
   },
 });
