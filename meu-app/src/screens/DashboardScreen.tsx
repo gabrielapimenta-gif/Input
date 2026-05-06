@@ -5,21 +5,44 @@ import {
     FlatList,
     TouchableOpacity,
 } from "react-native";
+import { useState } from "react";
 import { router } from "expo-router";
+
 import { useMovies } from "../hooks/useMovies";
+import { deleteMovie } from "../services/movieService";
+
 import { MovieCard } from "../components/MovieCard";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 
 export default function DashboardScreen() {
-    const { movies } = useMovies();
+    const { movies, loadMovies } = useMovies();
+
+    const [search, setSearch] = useState("");
+
+    const filteredMovies = movies.filter((movie) =>
+        movie.titulo
+            ?.toLowerCase()
+            .includes(search.toLowerCase())
+    );
+
+    async function handleDelete(id: string) {
+        await deleteMovie(id);
+        loadMovies();
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Painel de Filmes</Text>
+                <Text style={styles.title}>
+                    Painel de Filmes
+                </Text>
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => router.push("/novo-filme")}
+                    onPress={() =>
+                        router.push("/novo-filme")
+                    }
                 >
                     <Text style={styles.buttonText}>
                         + Novo Filme
@@ -27,11 +50,45 @@ export default function DashboardScreen() {
                 </TouchableOpacity>
             </View>
 
+            <Input
+                placeholder="Pesquisar por título"
+                value={search}
+                onChangeText={setSearch}
+            />
+
             <FlatList
-                data={movies}
-                keyExtractor={(item) => String(item.id)}
+                data={filteredMovies}
+                keyExtractor={(item) =>
+                    String(item.id)
+                }
                 renderItem={({ item }) => (
-                    <MovieCard movie={item} />
+                    <View style={styles.cardContainer}>
+                        <MovieCard movie={item} />
+
+                        <View style={styles.actions}>
+                            <TouchableOpacity
+                                style={styles.editButton}
+                                onPress={() =>
+                                    router.push(`/editar/${item.id}`)
+                                }
+                            >
+                                <Text style={styles.actionText}>
+                                    Editar
+                                </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.deleteButton}
+                                onPress={() =>
+                                    handleDelete(item.id)
+                                }
+                            >
+                                <Text style={styles.actionText}>
+                                    Excluir
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 )}
             />
         </View>
@@ -46,25 +103,62 @@ const styles = StyleSheet.create({
     },
 
     header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginBottom: 20,
     },
 
     title: {
         color: "#fff",
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 16,
     },
 
     button: {
         backgroundColor: "#E50914",
-        padding: 14,
-        borderRadius: 10,
+        padding: 12,
+        borderRadius: 8,
     },
 
     buttonText: {
         color: "#fff",
-        textAlign: "center",
+        fontWeight: "bold",
+    },
+
+    cardContainer: {
+        marginBottom: 20,
+    },
+
+    actions: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 12,
+        marginTop: 12,
+    },
+
+    editButton: {
+        flex: 1,
+        backgroundColor: "#1A1A1A",
+        padding: 14,
+        borderRadius: 8,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#2A2A2A",
+    },
+
+    deleteButton: {
+        flex: 1,
+        backgroundColor: "#1A1A1A",
+        padding: 14,
+        borderRadius: 8,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#2A2A2A",
+    },
+
+    actionText: {
+        color: "#fff",
         fontWeight: "bold",
     },
 });

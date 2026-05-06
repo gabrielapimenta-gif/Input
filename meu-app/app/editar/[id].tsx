@@ -1,5 +1,5 @@
 import MovieFormScreen from "../../src/screens/MovieFormScreen";
 
-export default function EditMovie() {
+export default function EditarFilme() {
   return <MovieFormScreen />;
 }

@@ -19,7 +19,14 @@ export async function getMovieById(id: string) {
   return response.data;
 }
 
-export async function updateMovie(id: string, data: any) {
-  const response = await api.put(`/movies/${id}`, data);
+export async function updateMovie(
+  id: string,
+  movie: any
+) {
+  const response = await api.put(
+    `/movies/${id}`,
+    movie
+  );
+
   return response.data;
 }
