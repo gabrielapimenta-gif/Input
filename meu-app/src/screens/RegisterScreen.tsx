@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useState } from "react";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { register } from "../services/authService";
+import {register} from "../services/authService";
 import { router } from "expo-router";
 
 export default function RegisterScreen() {
@@ -11,11 +11,13 @@ export default function RegisterScreen() {
   const [senha, setSenha] = useState("");
 
   async function handleRegister() {
-    await register(
-      nome.trim(),
-      email.trim(),
-      senha.trim()
-    );
+    const data = {
+      nome: nome.trim(),
+      email: email.trim(),
+      senha: senha.trim()
+    };
+
+    await register(nome, email, senha);
 
     router.push("/");
   }

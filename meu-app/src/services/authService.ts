@@ -1,9 +1,6 @@
 import { api } from "./api";
 
-export async function login(
-  email: string,
-  senha: string
-) {
+export async function login(email: string, senha: string) {
   const response = await api.get("/users");
 
   const users = response.data;
@@ -27,4 +24,18 @@ export async function login(
   return {
     user: userByEmail,
   };
+}
+
+export async function register(
+  nome: string,
+  email: string,
+  senha: string
+) {
+  const response = await api.post("/users", {
+    nome,
+    email,
+    senha,
+  });
+
+  return response.data;
 }
