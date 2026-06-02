@@ -10,7 +10,9 @@ export interface Movie {
   roteiro: string;
   elenco: string[];
   genero: string[];
-  linkFilme: string;
-  linkTrailer: string;
+  arquivoFilme?: string;
+  linkFilme?: string;
+  arquivoTrailer?: string;
+  linkTrailer?: string;
   capa: string;
 }

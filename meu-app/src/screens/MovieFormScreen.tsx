@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
@@ -14,11 +7,7 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 
-import {
-  getMovieById,
-  updateMovie,
-  createMovie,
-} from "../services/movieService";
+import {getMovieById, updateMovie, createMovie } from "../services/movieService";
 
 export default function MovieFormScreen() {
   const { id } = useLocalSearchParams();
@@ -31,8 +20,7 @@ export default function MovieFormScreen() {
   const [direcao, setDirecao] = useState("");
   const [producao, setProducao] = useState("");
   const [roteiro, setRoteiro] = useState("");
-  const [direcaoFotografia, setDirecaoFotografia] =
-    useState("");
+  const [direcaoFotografia, setDirecaoFotografia] = useState("");
   const [montagem, setMontagem] = useState("");
   const [direcaoArte, setDirecaoArte] = useState("");
   const [trilhaSonora, setTrilhaSonora] = useState("");
@@ -41,16 +29,17 @@ export default function MovieFormScreen() {
   const [figurino, setFigurino] = useState("");
   const [nomeAtores, setNomeAtores] = useState("");
 
-  const [classificacao, setClassificacao] =
-    useState("");
+  const [classificacao, setClassificacao] = useState("");
   const [genero, setGenero] = useState("");
   const [categoria, setCategoria] = useState("");
 
   const [capa, setCapa] = useState("");
-  const [arquivoFilme, setArquivoFilme] =
-    useState("");
-  const [arquivoTrailer, setArquivoTrailer] =
-    useState("");
+
+  const [arquivoFilme, setArquivoFilme] = useState("");
+  const [linkFilme, setLinkFilme] = useState("");
+  
+  const [arquivoTrailer, setArquivoTrailer] = useState("");
+  const [linkTrailer, setLinkTrailer] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -70,9 +59,7 @@ export default function MovieFormScreen() {
     setDirecao(movie.direcao || "");
     setProducao(movie.producao || "");
     setRoteiro(movie.roteiro || "");
-    setDirecaoFotografia(
-      movie.direcaoFotografia || ""
-    );
+    setDirecaoFotografia(movie.direcaoFotografia || "");
     setMontagem(movie.montagem || "");
     setDirecaoArte(movie.direcaoArte || "");
     setTrilhaSonora(movie.trilhaSonora || "");
@@ -87,7 +74,9 @@ export default function MovieFormScreen() {
 
     setCapa(movie.capa || "");
     setArquivoFilme(movie.arquivoFilme || "");
+    setLinkFilme(movie.linkFilme || "");
     setArquivoTrailer(movie.arquivoTrailer || "");
+    setLinkTrailer(movie.linkTrailer || "");
   }
 
   async function selecionarImagem() {
@@ -158,7 +147,9 @@ export default function MovieFormScreen() {
       categoria,
       capa,
       arquivoFilme,
+      linkFilme,
       arquivoTrailer,
+      linkTrailer,
     };
 
     if (id) {
@@ -221,6 +212,7 @@ export default function MovieFormScreen() {
           selectedValue={classificacao}
           onValueChange={setClassificacao}
         >
+          <Picker.Item label="Selecione a Classificação Indicativa" value="Selecione a Classificação" />
           <Picker.Item label="Livre" value="Livre" />
           <Picker.Item label="10 anos" value="10" />
           <Picker.Item label="12 anos" value="12" />
@@ -315,7 +307,11 @@ export default function MovieFormScreen() {
           selectedValue={categoria}
           onValueChange={setCategoria}
         >
-          <Picker.Item label="Ficção" value="Ficção" />
+          <Picker.Item label="Selecione a Categoria" value="Selecione" />
+          <Picker.Item
+            label="Ficção" 
+            value="Ficção" 
+          />
           <Picker.Item
             label="Animação"
             value="Animação"
@@ -334,7 +330,11 @@ export default function MovieFormScreen() {
           selectedValue={genero}
           onValueChange={setGenero}
         >
-          <Picker.Item label="Drama" value="Drama" />
+          <Picker.Item label="Selecione o Gênero" value="Selecione" />
+          <Picker.Item 
+            label="Drama" 
+            value="Drama" 
+          />
           <Picker.Item
             label="Comédia"
             value="Comédia"
@@ -377,6 +377,12 @@ export default function MovieFormScreen() {
           </TouchableOpacity>
         ) : null}
 
+        <Input
+         value={linkFilme}
+         onChangeText={setLinkFilme}
+         placeholder="Ou informe o link do filme no YouTube"
+        />
+
         <TouchableOpacity
           style={styles.uploadArea}
           onPress={selecionarTrailer}
@@ -398,6 +404,12 @@ export default function MovieFormScreen() {
             </Text>
           </TouchableOpacity>
         ) : null}
+
+        <Input
+         value={linkTrailer}
+         onChangeText={setLinkTrailer}
+         placeholder="Ou informe o link do trailer no YouTube"
+        />
 
         <TouchableOpacity
           style={styles.uploadArea}
