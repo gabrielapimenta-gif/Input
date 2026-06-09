@@ -4,6 +4,7 @@ import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
+    Alert,
 } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
@@ -27,7 +28,30 @@ export default function DashboardScreen() {
     );
 
     async function handleDelete(id: string) {
-        await deleteMovie(id);
+        Alert.alert(
+            "Excluir filme",
+            "Deseja realmente excluir este filme?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                { text: "Excluir", style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await deleteMovie(id);
+
+        Alert.alert(
+            "Sucesso",
+            "Filme removido com sucesso."
+        );
+    } catch (error) {
+        Alert.alert(
+            "Erro",
+            "Não foi possível excluir o filme."
+          );
+        }
+      },
+    },
+  ]
+);
         loadMovies();
     }
 

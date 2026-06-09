@@ -1,6 +1,9 @@
 import { api } from "./api";
 
-export async function login(email: string, senha: string) {
+export async function login(
+  email: string,
+  senha: string
+) {
   const response = await api.get("/users");
 
   const users = response.data;
@@ -31,11 +34,29 @@ export async function register(
   email: string,
   senha: string
 ) {
-  const response = await api.post("/users", {
+  const response = await api.get("/users");
+
+  const users = response.data;
+
+  const emailExists = users.find(
+    (u: any) =>
+      u.email.toLowerCase() ===
+      email.toLowerCase()
+  );
+
+  if (emailExists) {
+    return {
+      error: "EMAIL_ALREADY_EXISTS",
+    };
+  }
+
+  const newUser = await api.post("/users", {
     nome,
     email,
     senha,
   });
 
-  return response.data;
+  return {
+    user: newUser.data,
+  };
 }

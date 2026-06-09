@@ -1,4 +1,12 @@
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
@@ -152,13 +160,19 @@ export default function MovieFormScreen() {
       linkTrailer,
     };
 
-    if (id) {
-      await updateMovie(String(id), novoFilme);
-    } else {
+    try {
       await createMovie(novoFilme);
-    }
+      
+      Alert.alert("Sucesso", "Filme cadastrado com sucesso!");
+      
+      router.push("/dashboard");
 
-    router.replace("/dashboard");
+} catch (error) {
+  Alert.alert("Erro", error instanceof Error
+    ? error.message
+    : "Não foi possível salvar o filme."
+  );
+}
   }
 
   return (

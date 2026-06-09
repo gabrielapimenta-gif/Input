@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { useState } from "react";
@@ -9,36 +9,34 @@ import { router } from "expo-router";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
 
   async function handleLogin() {
-  const result = await login(
-    email.trim(),
-    senha.trim()
-  );
-
-  if (result.error === "EMAIL_NOT_FOUND") {
-    Alert.alert(
-      "Email incorreto",
-      "O Email está incorreto. Tente novamente."
+    const result = await login(
+      email.trim(),
+      senha.trim()
     );
-    return;
-  }
 
-  if (result.error === "WRONG_PASSWORD") {
-    Alert.alert(
-      "Senha incorreta",
-      "A senha está incorreta. Tente novamente."
-    );
-    return;
-  }
+    if (result.error === "EMAIL_NOT_FOUND") {
+      setErro("E-mail não encontrado");
+      return;
+    }
 
-  if (result.user) {
-    await saveUser(result.user);
-    router.push("/dashboard");
+    if (result.error === "WRONG_PASSWORD") {
+      setErro("Senha incorreta");
+      return;
+    }
+
+    setErro("");
+
+    if (result.user) {
+      await saveUser(result.user);
+      router.push("/dashboard");
+    }
   }
-}
 
   return (
+
     <View style={styles.container}>
       <Text style={styles.logo}>UNA CINE+</Text>
       <Text style={styles.subtitle}>Área Administrativa</Text>
@@ -66,6 +64,12 @@ export default function LoginScreen() {
           onChangeText={setSenha}
           secureTextEntry
         />
+
+        {erro ? (
+          <Text style={styles.errorText}>
+            {erro}
+          </Text>
+        ) : null}
 
         <Button title="Entrar" onPress={handleLogin} />
 
@@ -135,5 +139,17 @@ const styles = StyleSheet.create({
     color: "#999",
     marginTop: 20,
     textAlign: "center",
+  },
+
+  errorText: {
+    color: "#ff4d4f",
+    backgroundColor: "#2a0d0d",
+    borderWidth: 1,
+    borderColor: "#ff4d4f",
+    padding: 10,
+    borderRadius: 6,
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
